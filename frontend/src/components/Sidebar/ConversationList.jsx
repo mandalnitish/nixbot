@@ -1,7 +1,8 @@
-// frontend/src/components/Sidebar/ConversationList.jsx - Enhanced
+// frontend/src/components/Sidebar/ConversationList.jsx - Enhanced with PDF Export
 import React from 'react';
-import { MessageSquare, Trash2, Download } from 'lucide-react';
+import { MessageSquare, Trash2, Download, FileText } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
+import { exportChatToPDF } from '../../utils/pdfExport';
 
 const ConversationList = ({ onClose, conversations, searchQuery }) => {
   const { currentConversation, selectConversation, deleteConversation } = useChat();
@@ -17,6 +18,33 @@ const ConversationList = ({ onClose, conversations, searchQuery }) => {
     e.stopPropagation();
     if (window.confirm('Are you sure you want to delete this conversation?')) {
       await deleteConversation(id);
+    }
+  };
+
+  const exportToPDF = async (e, conversation) => {
+    e.stopPropagation();
+    
+    try {
+      // Get messages for this conversation
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL || 'http://localhost:3001/api'}/chat/messages/${conversation._id}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        }
+      );
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        exportChatToPDF(conversation, data.data.messages);
+      } else {
+        alert('Failed to export conversation');
+      }
+    } catch (error) {
+      console.error('Error exporting to PDF:', error);
+      alert('Failed to export conversation');
     }
   };
 
@@ -112,9 +140,16 @@ const ConversationList = ({ onClose, conversations, searchQuery }) => {
             </div>
             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
               <button
+                onClick={(e) => exportToPDF(e, conversation)}
+                className="p-1.5 text-gray-400 hover:text-green-400 hover:bg-green-400/10 rounded transition-all"
+                title="Export as PDF"
+              >
+                <FileText className="w-4 h-4" />
+              </button>
+              <button
                 onClick={(e) => exportConversation(e, conversation)}
                 className="p-1.5 text-gray-400 hover:text-blue-400 hover:bg-blue-400/10 rounded transition-all"
-                title="Export conversation"
+                title="Export as JSON"
               >
                 <Download className="w-4 h-4" />
               </button>

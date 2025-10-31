@@ -51,23 +51,23 @@ const Message = ({ message, onRegenerate }) => {
   };
 
   return (
-    <div className={`flex gap-4 ${!isBot ? 'flex-row-reverse' : 'flex-row'}`}>
+    <div className={`flex gap-2 sm:gap-4 ${!isBot ? 'flex-row-reverse' : 'flex-row'}`}>
       <div
-        className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+        className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
           isBot
             ? 'bg-gradient-to-br from-purple-500 to-pink-500'
             : 'bg-gradient-to-br from-blue-500 to-cyan-500'
         }`}
       >
         {isBot ? (
-          <Bot className="w-6 h-6 text-white" />
+          <Bot className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
         ) : (
-          <User className="w-6 h-6 text-white" />
+          <User className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
         )}
       </div>
-      <div className={`flex-1 ${!isBot ? 'flex justify-end' : ''}`}>
+      <div className={`flex-1 min-w-0 ${!isBot ? 'flex justify-end' : ''}`}>
         <div
-          className={`inline-block max-w-[80%] px-6 py-4 rounded-2xl ${
+          className={`inline-block max-w-full sm:max-w-[85%] px-3 sm:px-6 py-3 sm:py-4 rounded-2xl ${
             isBot
               ? 'bg-slate-800/50 text-white border border-purple-500/20'
               : 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white'
@@ -148,31 +148,31 @@ const Message = ({ message, onRegenerate }) => {
             </p>
           )}
           
-          <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/10">
+          <div className="flex items-center justify-between mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-white/10">
             <p className="text-xs opacity-70">
               {new Date(message.createdAt).toLocaleTimeString()}
             </p>
             
-            <div className="flex gap-2">
+            <div className="flex gap-1 sm:gap-2">
               <button
                 onClick={handleCopy}
-                className="p-1.5 hover:bg-white/10 rounded transition-colors"
+                className="p-1 sm:p-1.5 hover:bg-white/10 rounded transition-colors"
                 title="Copy message"
               >
                 {copied ? (
-                  <Check className="w-4 h-4" />
+                  <Check className="w-3 h-3 sm:w-4 sm:h-4" />
                 ) : (
-                  <Copy className="w-4 h-4" />
+                  <Copy className="w-3 h-3 sm:w-4 sm:h-4" />
                 )}
               </button>
               
               {isBot && onRegenerate && (
                 <button
                   onClick={onRegenerate}
-                  className="p-1.5 hover:bg-white/10 rounded transition-colors"
+                  className="p-1 sm:p-1.5 hover:bg-white/10 rounded transition-colors"
                   title="Regenerate response"
                 >
-                  <RefreshCw className="w-4 h-4" />
+                  <RefreshCw className="w-3 h-3 sm:w-4 sm:h-4" />
                 </button>
               )}
             </div>

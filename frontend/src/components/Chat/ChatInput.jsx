@@ -151,7 +151,7 @@ const ChatInput = () => {
   const isOverLimit = charCount > MAX_LENGTH;
 
   return (
-    <div className="bg-slate-800/30 backdrop-blur-xl border-t border-purple-500/20 px-6 py-4">
+    <div className="bg-slate-800/30 backdrop-blur-xl border-t border-purple-500/20 px-3 sm:px-6 py-3 sm:py-4">
       <div className="max-w-4xl mx-auto">
         {/* File Upload Preview */}
         {uploadedFile && (
@@ -176,8 +176,8 @@ const ChatInput = () => {
         />
 
         <form onSubmit={handleSubmit} className="space-y-2">
-          <div className="flex gap-3 items-end">
-            <div className="flex-1 bg-slate-800/50 border border-purple-500/20 rounded-2xl px-5 py-3 focus-within:border-purple-500/50 transition-colors">
+          <div className="flex gap-2 sm:gap-3 items-end">
+            <div className="flex-1 bg-slate-800/50 border border-purple-500/20 rounded-xl sm:rounded-2xl px-3 sm:px-5 py-2 sm:py-3 focus-within:border-purple-500/50 transition-colors">
               <textarea
                 ref={textareaRef}
                 value={input}
@@ -191,13 +191,13 @@ const ChatInput = () => {
               />
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-1.5 sm:gap-2">
               {/* File Upload Button */}
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className={`p-4 rounded-2xl transition-all ${
+                className={`p-2.5 sm:p-4 rounded-xl sm:rounded-2xl transition-all ${
                   uploadedFile
                     ? 'bg-purple-600 hover:bg-purple-700'
                     : 'bg-slate-700 hover:bg-slate-600'
@@ -205,9 +205,9 @@ const ChatInput = () => {
                 title="Upload file"
               >
                 {uploading ? (
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : (
-                  <Paperclip className="w-5 h-5 text-white" />
+                  <Paperclip className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                 )}
               </button>
 
@@ -215,7 +215,7 @@ const ChatInput = () => {
               <button
                 type="button"
                 onClick={handleVoiceInput}
-                className={`p-4 rounded-2xl transition-all ${
+                className={`p-2.5 sm:p-4 rounded-xl sm:rounded-2xl transition-all ${
                   isRecording
                     ? 'bg-red-600 hover:bg-red-700'
                     : 'bg-slate-700 hover:bg-slate-600'
@@ -223,9 +223,9 @@ const ChatInput = () => {
                 title="Voice input"
               >
                 {isRecording ? (
-                  <Square className="w-5 h-5 text-white" />
+                  <Square className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                 ) : (
-                  <Mic className="w-5 h-5 text-white" />
+                  <Mic className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                 )}
               </button>
 
@@ -233,9 +233,9 @@ const ChatInput = () => {
               <button
                 type="submit"
                 disabled={!input.trim() || sending || isOverLimit}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-slate-700 disabled:to-slate-700 text-white rounded-2xl p-4 transition-all disabled:cursor-not-allowed"
+                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-slate-700 disabled:to-slate-700 text-white rounded-xl sm:rounded-2xl p-2.5 sm:p-4 transition-all disabled:cursor-not-allowed"
               >
-                <Send className="w-5 h-5" />
+                <Send className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             </div>
           </div>

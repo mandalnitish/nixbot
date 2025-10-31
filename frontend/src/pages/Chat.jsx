@@ -1,4 +1,4 @@
-// frontend/src/pages/Chat.jsx
+// frontend/src/pages/Chat.jsx - Mobile Optimized
 import React, { useEffect, useState } from 'react';
 import { useChat } from '../context/ChatContext';
 import Sidebar from '../components/Sidebar/Sidebar';
@@ -14,10 +14,22 @@ const Chat = () => {
     loadConversations();
   }, []);
 
+  // Close sidebar when clicking outside on mobile
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [sidebarOpen]);
+
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="flex-1 flex flex-col bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <div className="flex-1 flex flex-col bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 w-full">
         <ChatHeader onMenuClick={() => setSidebarOpen(true)} />
         <ChatMessages />
         <ChatInput />
