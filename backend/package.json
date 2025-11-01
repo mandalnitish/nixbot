@@ -39,6 +39,7 @@
     "multer": "^2.0.2",
     "pdf-parse": "^2.4.5",
     "pdfjs-dist": "^5.4.296",
+    "textract": "^2.5.0",
     "winston": "^3.18.3"
   },
   "devDependencies": {

@@ -1,17 +1,17 @@
-// frontend/src/pages/Register.jsx
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { Sparkles } from 'lucide-react';
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { Sparkles, Home } from "lucide-react";
+import { motion } from "framer-motion"; // ✅ For animations
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
@@ -22,28 +22,26 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
-    if (formData.password !== formData.confirmPassword) {
-      return setError('Passwords do not match');
-    }
+    const { username, email, password, confirmPassword } = formData;
 
-    if (formData.password.length < 6) {
-      return setError('Password must be at least 6 characters');
-    }
+    // ✅ Frontend validations
+    if (!username.trim()) return setError("Username is required");
+    if (!email.includes("@")) return setError("Enter a valid email address");
+    if (password.length < 6)
+      return setError("Password must be at least 6 characters");
+    if (password !== confirmPassword)
+      return setError("Passwords do not match");
 
     setLoading(true);
 
     try {
-      await register({
-        username: formData.username,
-        email: formData.email,
-        password: formData.password
-      });
-      navigate('/chat');
+      await register({ username, email, password });
+      navigate("/chat");
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
-      console.error('Registration error:', err);
+      console.error("Registration error:", err);
+      setError(err.response?.data?.message || "Registration failed. Try again.");
     } finally {
       setLoading(false);
     }
@@ -51,16 +49,36 @@ const Register = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-md"
+      >
+        {/* Header Section */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl mb-4">
+          <motion.div
+            initial={{ scale: 0.8, rotate: -10 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl mb-4"
+          >
             <Sparkles className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Create Account</h1>
+          </motion.div>
+
+          <h1 className="text-3xl font-bold text-white mb-2">
+            Create Account
+          </h1>
           <p className="text-gray-400">Join NixBot and start chatting</p>
         </div>
 
-        <div className="bg-slate-800/50 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-8">
+        {/* Form Container */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="bg-slate-800/50 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-8"
+        >
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
               <div className="bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-lg">
@@ -68,8 +86,12 @@ const Register = () => {
               </div>
             )}
 
+            {/* Username */}
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Username
               </label>
               <input
@@ -86,8 +108,12 @@ const Register = () => {
               />
             </div>
 
+            {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Email
               </label>
               <input
@@ -103,8 +129,12 @@ const Register = () => {
               />
             </div>
 
+            {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Password
               </label>
               <input
@@ -121,8 +151,12 @@ const Register = () => {
               />
             </div>
 
+            {/* Confirm Password */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Confirm Password
               </label>
               <input
@@ -139,23 +173,37 @@ const Register = () => {
               />
             </div>
 
-            <button
+            {/* Submit Button */}
+            <motion.button
               type="submit"
               disabled={loading}
+              whileTap={{ scale: 0.97 }}
               className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-slate-700 disabled:to-slate-700 text-white font-medium py-3 rounded-lg transition-all disabled:cursor-not-allowed"
             >
-              {loading ? 'Creating account...' : 'Sign Up'}
-            </button>
+              {loading ? "Creating account..." : "Sign Up"}
+            </motion.button>
           </form>
 
+          {/* Sign In link */}
           <p className="text-center text-gray-400 mt-6">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <Link to="/login" className="text-purple-400 hover:text-purple-300">
               Sign in
             </Link>
           </p>
-        </div>
-      </div>
+
+          {/* 🏠 Return Home Button */}
+          <div className="text-center mt-6">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 px-5 py-3 border border-purple-500/30 text-purple-300 rounded-lg hover:bg-purple-600/10 hover:border-purple-500/50 transition-all"
+            >
+              <Home className="w-5 h-5" />
+              Return Home
+            </Link>
+          </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };
