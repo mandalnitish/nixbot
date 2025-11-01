@@ -1,22 +1,19 @@
-// frontend/src/components/Sidebar/Sidebar.jsx - Enhanced
+// frontend/src/components/Sidebar/Sidebar.jsx
 import React, { useState } from 'react';
-import { Sparkles, Plus, LogOut, Search, Download, Settings, User as UserIcon } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Sparkles, Plus, LogOut, Search, Download } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import ConversationList from './ConversationList';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const { user, logout } = useAuth();
-  const { createConversation, conversations, messages } = useChat();
+  const { createConversation, conversations } = useChat();
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleNewChat = async () => {
     try {
       await createConversation('New Conversation');
-      if (window.innerWidth < 1024) {
-        onClose();
-      }
+      if (window.innerWidth < 1024) onClose();
     } catch (error) {
       console.error('Error creating conversation:', error);
     }
@@ -25,10 +22,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   const exportAllChats = () => {
     const exportData = {
       exportDate: new Date().toISOString(),
-      user: {
-        username: user?.username,
-        email: user?.email
-      },
+      user: { username: user?.username, email: user?.email },
       conversations: conversations.map(conv => ({
         id: conv._id,
         title: conv.title,
@@ -46,9 +40,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     const a = document.createElement('a');
     a.href = url;
     a.download = `nixbot-conversations-${Date.now()}.json`;
-    document.body.appendChild(a);
     a.click();
-    document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
 
@@ -102,7 +94,7 @@ const Sidebar = ({ isOpen, onClose }) => {
 
         {/* Conversation List */}
         <div className="flex-1 overflow-y-auto">
-          <ConversationList 
+          <ConversationList
             onClose={onClose}
             conversations={filteredConversations}
             searchQuery={searchQuery}
@@ -120,7 +112,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           </button>
 
           <div className="flex items-center gap-3 p-3 bg-slate-900/30 rounded-lg">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
               <span className="text-white font-semibold text-sm">
                 {user?.username?.charAt(0).toUpperCase()}
               </span>
