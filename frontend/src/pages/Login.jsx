@@ -31,86 +31,94 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Animated Background */}
+      {/* Optimized Background - reduced blur and complexity */}
       <div className="fixed inset-0 z-0">
         <motion.div 
           animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.15, 0.25, 0.15]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-purple-600/20 blur-[150px] rounded-full" 
-        />
-        <motion.div 
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.15, 0.2, 0.15]
+            scale: [1, 1.08, 1],
+            opacity: [0.12, 0.16, 0.12]
           }}
           transition={{
             duration: 10,
             repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1
+            ease: "easeInOut"
           }}
-          className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-pink-600/20 blur-[150px] rounded-full" 
+          className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/25 rounded-full pointer-events-none" 
+          style={{ filter: "blur(80px)" }}
+        />
+        <motion.div 
+          animate={{
+            scale: [1, 1.12, 1],
+            opacity: [0.12, 0.15, 0.12]
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+          className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-pink-600/25 rounded-full pointer-events-none" 
+          style={{ filter: "blur(80px)" }}
         />
       </div>
 
-      {/* Grid overlay */}
-      <div className="fixed inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
+      {/* Simplified grid overlay */}
+      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none" style={{
+        backgroundImage: "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)",
+        backgroundSize: "100px 100px",
+        maskImage: "radial-gradient(ellipse at center, black, transparent 80%)"
+      }} />
 
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className="w-full max-w-md relative z-10"
       >
         {/* Header Section */}
         <div className="text-center mb-8">
           <motion.div
-            initial={{ scale: 0.8, rotate: -10 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            whileHover={{ rotate: 360, scale: 1.1 }}
-            className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500 rounded-2xl mb-6 shadow-2xl shadow-purple-500/50"
+            initial={{ scale: 0.8 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ rotate: 360 }}
+            className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500 rounded-2xl mb-6 shadow-xl shadow-purple-500/30 cursor-pointer"
           >
             <Sparkles className="w-8 h-8 text-white" />
           </motion.div>
 
           <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
             className="text-4xl font-bold text-white mb-3"
           >
             Welcome Back
           </motion.h1>
           <motion.p 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
             className="text-gray-400 text-lg"
           >
             Sign in to continue to NixBot
           </motion.p>
         </div>
 
-        {/* Form Container */}
+        {/* Form Container - optimized backdrop blur */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 shadow-2xl"
+          transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="bg-white/5 border border-white/10 rounded-3xl p-8 shadow-2xl"
+          style={{ backdropFilter: "blur(16px)" }}
         >
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
                 className="bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-2xl text-sm"
               >
                 {error}
@@ -126,9 +134,8 @@ const Login = () => {
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                <motion.input
-                  whileFocus={{ scale: 1.01 }}
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
+                <input
                   id="email"
                   name="email"
                   type="email"
@@ -151,9 +158,8 @@ const Login = () => {
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                <motion.input
-                  whileFocus={{ scale: 1.01 }}
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
+                <input
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
@@ -174,20 +180,16 @@ const Login = () => {
               </div>
             </div>
 
-            {/* Submit Button */}
+            {/* Submit Button - simplified hover effect */}
             <motion.button
               type="submit"
               disabled={loading}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-gray-700 disabled:to-gray-700 text-white font-bold py-4 rounded-2xl transition-all disabled:cursor-not-allowed shadow-lg hover:shadow-purple-500/50 relative overflow-hidden group"
+              transition={{ duration: 0.2 }}
+              className="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-gray-700 disabled:to-gray-700 text-white font-bold py-4 rounded-2xl transition-all disabled:cursor-not-allowed shadow-lg hover:shadow-purple-500/40"
             >
-              <span className="relative z-10">
-                {loading ? "Signing in..." : "Sign In"}
-              </span>
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-purple-700 via-pink-700 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity"
-              />
+              {loading ? "Signing in..." : "Sign In"}
             </motion.button>
           </form>
 
@@ -195,7 +197,7 @@ const Login = () => {
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
+            transition={{ delay: 0.4 }}
             className="text-center text-gray-400 mt-8"
           >
             Don't have an account?{" "}
@@ -208,10 +210,10 @@ const Login = () => {
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
+            transition={{ delay: 0.5 }}
             className="text-center mt-6"
           >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ duration: 0.2 }}>
               <Link
                 to="/"
                 className="inline-flex items-center gap-2 px-6 py-3 border border-white/10 text-gray-300 rounded-2xl hover:bg-white/5 hover:border-white/20 transition-all"
