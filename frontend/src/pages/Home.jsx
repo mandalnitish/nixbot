@@ -324,7 +324,7 @@ const Home = () => {
             <span className="text-xl font-bold">NixBot</span>
           </div>
           <p className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} NixBot — Powered by cutting-edge AI technology
+            © {new Date().getFullYear()} NixBot — Powered by NixITCompany
           </p>
         </div>
       </footer>
